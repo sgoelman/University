@@ -1,0 +1,7 @@
+dfFile = spark.read.load("test.txt",
+                     format="csv", sep='\t', inferSchema="true", header="true")
+df = dfFile.select("AnonID", "Query").distinct()
+users = df.groupBy("AnonID")
+queryByUser = users.count().collect()
+rdd = df.rdd
+type(rdd)
