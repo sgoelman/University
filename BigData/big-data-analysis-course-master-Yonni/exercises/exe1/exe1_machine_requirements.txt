@@ -1,0 +1,8 @@
+vm:
+	memory: 4GB
+	Hard Disk: 20GB
+	processors: 2
+
+python:
+	version: 3
+	package installer: pip3

@@ -1,0 +1,13 @@
+vm:
+	memory: 4GB+
+	Hard Disk: 30GB+
+	processors: 2+
+
+File system:
+	/tmp size:20GB+
+	command for increasing /tmp volume: [sudo mount -t tmpfs -o size=20G,mode=1777 overflow /tmp]
+
+python:
+	version: 3
+	package installer: pip3
+
