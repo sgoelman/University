@@ -1,0 +1,10 @@
+
+YOSSI                      Ours
+user_query
+validItems                      remainQueries
+get_all_pairs()                createPairs
+sort_small_list()                 sortForUnion
+user_query                       userQueryTuple
+all_queries_pairs_tuples            quriesTuple
+all_queries_tuples_sorted               sortedQueriesTuple
+all_queries_pairs_tuples_count                    sortedQueriesTupleCount
