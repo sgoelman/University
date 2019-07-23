@@ -1,3 +1,11 @@
+
+
+# Yossi     ours
+# review = FilteredColumn
+
+
+
+
 from pyspark.sql.functions import *
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.evaluation import ClusteringEvaluator
@@ -61,7 +69,7 @@ data.count()
 # todo: change columns
 def filterData(column):
 
-    return trim(lower(regexp_replace(column, '[^\sa-zA-Z0-9]', ''))).alias('review')
+    return trim(lower(regexp_replace(column, '[^\sa-zA-Z0-9]', ''))).alias('FilteredColumn')
 
 filteredData = data.select([filterData(data['description']), col("points").alias("label")])
 
@@ -78,7 +86,6 @@ dataFrame.agg(func.mean('descriptionWordCount'), func.count('descriptionWordCoun
 # _____________________________________________________________
 # _____________________________________________________________
 
-## preprocecing
 
 
 
@@ -87,8 +94,8 @@ dataFrame.agg(func.mean('descriptionWordCount'), func.count('descriptionWordCoun
 # 60
 # Now split each sentence into words, also called word tokenization.
 
-tokenizer = Tokenizer(inputCol="review", outputCol="split_sentence_into_words")
-wordsDF = tokenizer.transform(filteredData)
+token = Tokenizer(inputCol="FilteredColumn", outputCol="split_sentence_into_words")
+wordsDF = token.transform(filteredData)
 
 # _____________________________________________________________
 # _____________________________________________________________
@@ -155,8 +162,6 @@ class Evaluator():
 # _____________________________________________________________
 
 
-
-
 nb = NaiveBayes(smoothing=1.0, modelType="multinomial")
 naiveBayesEvaluator = Evaluator(nb)
 naiveBayesEvaluator.run(training,test)
@@ -204,7 +209,7 @@ class EvaluatorClustering():
 
 ec = EvaluatorClustering(KMeans().setK(2).setSeed(100))
 featureTable = words_binary_df.select('features')
-reviewTable = words_binary_df.select(['label','review','features'])
+reviewTable = words_binary_df.select(['label','FilteredColumn','features'])
 
 ec.run(featureTable,reviewTable)
 ec.evaluators()
@@ -251,7 +256,7 @@ naiveBayesEvaluator.get_score()
 
 ec = EvaluatorClustering(KMeans().setK(2).setSeed(1))
 featureTable = words_tf_idf_DF.select('features')
-reviewTable = words_tf_idf_DF.select(['label','review','features'])
+reviewTable = words_tf_idf_DF.select(['label','FilteredColumn','features'])
 
 ec.run(featureTable,reviewTable)
 ec.evaluators()
